@@ -1,0 +1,38 @@
+
+Spring:
+  cloud:
+    gateway:
+      routes:
+        - id : r1
+          uri: http://localhost:8081/
+          predicates:
+            - Path= /customers/**
+        - id : r2
+          uri: http://localhost:8082/
+          predicates:
+            - Path= /products/**
+or
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
+        add-to-simple-url-handler-mapping: true
+      discovery:
+        locator:
+          lower-case-service-id: true
+logging:
+  level:
+    root: DEBUG
